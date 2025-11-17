@@ -1,6 +1,9 @@
+import os
+
 import reflex as rx
 import reflex_clerk_api as clerk
-import os
+
+from app import styles
 from app.pages.index import index
 from app.pages.pricing import pricing
 from app.pages.about import about
@@ -21,17 +24,11 @@ from app.pages.onboarding.payment import payment_step
 from app.pages.onboarding.success import success_page
 from app.pages.dashboard import dashboard
 from app.api.provision import api_app
+from app.theme import tokens
 
 base_app = rx.App(
-    theme=rx.theme(appearance="light"),
-    head_components=[
-        rx.el.link(rel="preconnect", href="https://fonts.googleapis.com"),
-        rx.el.link(rel="preconnect", href="https://fonts.gstatic.com", cross_origin=""),
-        rx.el.link(
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap",
-            rel="stylesheet",
-        ),
-    ],
+    theme=tokens,
+    head_components=styles.globals(),
 )
 app = clerk.wrap_app(
     base_app,
