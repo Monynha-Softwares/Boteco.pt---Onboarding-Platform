@@ -1,4 +1,10 @@
+assets/external/
+.web
+.states
+*.db
+*.py[cod]
 .web/
 .states/
 __pycache__/
 /app/__pycache__/
+.github/copilot/
