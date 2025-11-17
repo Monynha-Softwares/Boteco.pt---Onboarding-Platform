@@ -1,5 +1,42 @@
 import reflex as rx
 
+NAV_SECTIONS: tuple[dict[str, object], ...] = (
+    {
+        "title": "Institucional",
+        "links": (
+            ("Início", "/"),
+            ("Sobre", "/about"),
+            ("Blog", "/blog"),
+            ("Contato", "/contact"),
+        ),
+    },
+    {
+        "title": "Soluções",
+        "links": (
+            ("Visão geral", "/solutions"),
+            ("Menu Digital", "/solutions/digital-menu"),
+            ("Fornecedores", "/solutions/suppliers"),
+            ("Integrações", "/solutions/integrations"),
+            ("Planos", "/pricing"),
+        ),
+    },
+    {
+        "title": "Legal",
+        "links": (
+            ("Termos de Serviço", "/legal/terms"),
+            ("Política de Privacidade", "/legal/privacy"),
+        ),
+    },
+)
+
+
+def footer_link(text: str, href: str) -> rx.Component:
+    return rx.el.a(
+        text,
+        href=href,
+        class_name="mt-2 block text-[#4F3222] hover:text-[#B3701A] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#B3701A] rounded",
+    )
+
 
 def footer() -> rx.Component:
     """A shared footer component for the public pages."""
@@ -16,38 +53,15 @@ def footer() -> rx.Component:
                     ),
                 ),
                 rx.el.div(
-                    rx.el.div(
-                        rx.el.h4(
-                            "Navegação", class_name="font-semibold text-[#4F3222]"
-                        ),
-                        rx.el.a(
-                            "Início",
-                            href="/",
-                            class_name="mt-4 block text-[#4F3222] hover:text-[#B3701A] transition-colors",
-                        ),
-                        rx.el.a(
-                            "Planos",
-                            href="/pricing",
-                            class_name="mt-2 block text-[#4F3222] hover:text-[#B3701A] transition-colors",
-                        ),
-                        rx.el.a(
-                            "Sobre",
-                            href="/about",
-                            class_name="mt-2 block text-[#4F3222] hover:text-[#B3701A] transition-colors",
-                        ),
-                    ),
-                    rx.el.div(
-                        rx.el.h4("Legal", class_name="font-semibold text-[#4F3222]"),
-                        rx.el.a(
-                            "Termos de Serviço",
-                            href="#",
-                            class_name="mt-4 block text-[#4F3222] hover:text-[#B3701A] transition-colors",
-                        ),
-                        rx.el.a(
-                            "Política de Privacidade",
-                            href="#",
-                            class_name="mt-2 block text-[#4F3222] hover:text-[#B3701A] transition-colors",
-                        ),
+                    *(
+                        rx.el.div(
+                            rx.el.h4(
+                                section["title"], class_name="font-semibold text-[#4F3222]"
+                            ),
+                            *(footer_link(text, href) for text, href in section["links"]),
+                            class_name="space-y-2",
+                        )
+                        for section in NAV_SECTIONS
                     ),
                     rx.el.div(
                         rx.el.h4("Contato", class_name="font-semibold text-[#4F3222]"),
@@ -70,7 +84,7 @@ def footer() -> rx.Component:
                             class_name="flex mt-4 space-x-4",
                         ),
                     ),
-                    class_name="grid grid-cols-2 md:grid-cols-3 gap-8",
+                    class_name="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8",
                 ),
                 class_name="grid md:grid-cols-2 gap-8",
             ),

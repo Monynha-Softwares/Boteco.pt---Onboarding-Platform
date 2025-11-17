@@ -2,13 +2,27 @@ import reflex as rx
 import reflex_clerk_api as clerk
 from app.states.base_state import BaseState
 
+NAV_LINKS: tuple[tuple[str, str], ...] = (
+    ("Início", "/"),
+    ("Planos", "/pricing"),
+    ("Soluções", "/solutions"),
+    ("Menu Digital", "/solutions/digital-menu"),
+    ("Fornecedores", "/solutions/suppliers"),
+    ("Integrações", "/solutions/integrations"),
+    ("Blog", "/blog"),
+    ("Sobre", "/about"),
+    ("Contato", "/contact"),
+    ("Privacidade", "/legal/privacy"),
+    ("Termos", "/legal/terms"),
+)
+
 
 def nav_link(text: str, href: str) -> rx.Component:
     """A navigation link component."""
     return rx.el.a(
         text,
         href=href,
-        class_name="text-base font-medium text-[#4F3222] hover:text-[#B3701A] transition-colors",
+        class_name="text-base font-medium text-[#4F3222] hover:text-[#B3701A] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#B3701A] rounded-md px-1",
     )
 
 
@@ -22,11 +36,10 @@ def header() -> rx.Component:
                     href="/",
                     class_name="text-2xl font-bold text-[#8B1E3F] hover:opacity-90 transition-opacity",
                 ),
-                rx.el.div(
-                    nav_link("Início", "/"),
-                    nav_link("Planos", "/pricing"),
-                    nav_link("Sobre", "/about"),
-                    class_name="hidden md:flex items-center space-x-8",
+                rx.el.nav(
+                    *(nav_link(text, href) for text, href in NAV_LINKS),
+                    class_name="hidden md:flex items-center flex-wrap gap-4",
+                    aria_label="Navegação principal",
                 ),
                 class_name="flex items-center space-x-8",
             ),
@@ -72,11 +85,10 @@ def header() -> rx.Component:
         rx.cond(
             BaseState.show_mobile_menu,
             rx.el.div(
-                rx.el.div(
-                    nav_link("Início", "/"),
-                    nav_link("Planos", "/pricing"),
-                    nav_link("Sobre", "/about"),
-                    class_name="px-2 pt-2 pb-3 space-y-1",
+                rx.el.nav(
+                    *(nav_link(text, href) for text, href in NAV_LINKS),
+                    class_name="px-2 pt-2 pb-3 space-y-1 flex flex-col",
+                    aria_label="Menu móvel",
                 ),
                 rx.el.div(
                     clerk.signed_in(

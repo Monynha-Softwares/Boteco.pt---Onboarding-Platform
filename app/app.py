@@ -4,6 +4,16 @@ import os
 from app.pages.index import index
 from app.pages.pricing import pricing
 from app.pages.about import about
+from app.pages.solutions.index import solutions_overview
+from app.pages.solutions.digital_menu import digital_menu
+from app.pages.solutions.suppliers import suppliers
+from app.pages.solutions.integrations import integrations
+from app.pages.blog.index import blog_index
+from app.pages.blog.post import blog_post
+from app.pages.contact import contact
+from app.pages.legal.privacy import privacy
+from app.pages.legal.terms import terms
+from app.pages.not_found import not_found_page
 from app.pages.onboarding.personal import personal_step
 from app.pages.onboarding.business import business_step
 from app.pages.onboarding.plan import plan_step
@@ -34,6 +44,16 @@ app.api = api_app
 app.add_page(index, route="/")
 app.add_page(pricing, route="/pricing")
 app.add_page(about, route="/about")
+app.add_page(solutions_overview, route="/solutions")
+app.add_page(digital_menu, route="/solutions/digital-menu")
+app.add_page(suppliers, route="/solutions/suppliers")
+app.add_page(integrations, route="/solutions/integrations")
+app.add_page(blog_index, route="/blog")
+app.add_page(blog_post, route="/blog/[slug]")
+app.add_page(contact, route="/contact")
+app.add_page(privacy, route="/legal/privacy")
+app.add_page(terms, route="/legal/terms")
+app.add_page(not_found_page, route="/404")
 app.add_page(personal_step, route="/onboarding/step-1-personal", on_load=clerk.protect)
 app.add_page(business_step, route="/onboarding/step-2-business", on_load=clerk.protect)
 app.add_page(plan_step, route="/onboarding/step-3-plan", on_load=clerk.protect)
