@@ -66,7 +66,7 @@ class SupabaseClient:
 
     async def provision_schema(self, boteco_username: str) -> httpx.Response:
         """Calls the internal API to provision a new schema for the boteco."""
-        api_url = f"http://localhost:8000/api/provision_org"
+        api_url = "http://localhost:8000/api/provision_org"
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 api_url, json={"boteco_username": boteco_username}

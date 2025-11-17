@@ -1,5 +1,4 @@
 import reflex as rx
-import reflex_clerk_api as clerk
 from app.services.supabase_client import supabase_client
 import logging
 
@@ -156,6 +155,6 @@ class OnboardingState(rx.State):
             logging.exception(f"Error during payment/provisioning: {e}")
             self.is_loading = False
             yield rx.toast.error(
-                f"Erro na finalização: Verifique os dados e tente novamente."
+                "Erro na finalização: Verifique os dados e tente novamente."
             )
             return

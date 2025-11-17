@@ -1,4 +1,3 @@
-import reflex as rx
 from fastapi import FastAPI, Request, Response
 from supabase import create_client, Client
 import os
