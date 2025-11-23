@@ -106,9 +106,7 @@ def about() -> rx.Component:
                     class_name="text-3xl font-bold text-[#4F3222] text-center",
                 ),
                 rx.el.div(
-                    team_member_card(
-                        "Marcelo Santos", "Fundador", "/placeholder.svg"
-                    ),
+                    team_member_card("Marcelo Santos", "Fundador", "/placeholder.svg"),
                     team_member_card(
                         "Tércio Barretoyan", "Diretor Estratégico", "/placeholder.svg"
                     ),
@@ -116,7 +114,9 @@ def about() -> rx.Component:
                         "Sofia Reis", "Head de Design", "/placeholder.svg"
                     ),
                     team_member_card(
-                        "Millena Martins", "Head de Relações Públicas", "/placeholder.svg"
+                        "Millena Martins",
+                        "Head de Relações Públicas",
+                        "/placeholder.svg",
                     ),
                     class_name="mt-12 grid gap-12 sm:grid-cols-2 lg:grid-cols-4",
                 ),

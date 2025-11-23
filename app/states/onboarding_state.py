@@ -1,6 +1,11 @@
 import reflex as rx
 from app.services.supabase_client import supabase_client
 import logging
+from app.utils.validators import (
+    validate_username,
+    validate_cpf_cnpj,
+    validate_postal_code,
+)
 
 
 class OnboardingState(rx.State):
@@ -50,6 +55,12 @@ class OnboardingState(rx.State):
         ):
             yield rx.toast.error("Por favor, preencha todos os campos.")
             return
+        if not validate_cpf_cnpj(self.personal_tax_number):
+            yield rx.toast.error("CPF ou CNPJ inválido. Verifique os números.")
+            return
+        if not validate_postal_code(self.personal_postal_code):
+            yield rx.toast.error("CEP inválido. Use o formato com 8 dígitos.")
+            return
         self.is_loading = True
         yield
         try:
@@ -97,11 +108,23 @@ class OnboardingState(rx.State):
         )
 
     @rx.event
-    def handle_business_submit(self, form_data: dict):
+    async def handle_business_submit(self, form_data: dict):
         if not self._validate_business_data():
-            return rx.toast.error("Por favor, preencha todos os campos.")
+            yield rx.toast.error("Por favor, preencha todos os campos.")
+            return
+        if not validate_username(self.business_username):
+            yield rx.toast.error(
+                "Username inválido. Use apenas letras, números e underline (min 3 caracteres)."
+            )
+            return
+        if not validate_cpf_cnpj(self.business_tax_number):
+            yield rx.toast.error("CNPJ do estabelecimento inválido.")
+            return
+        if not validate_postal_code(self.business_postal_code):
+            yield rx.toast.error("CEP do estabelecimento inválido.")
+            return
         self.current_step = 3
-        return rx.redirect("/onboarding/step-3-plan")
+        yield rx.redirect("/onboarding/step-3-plan")
 
     @rx.event
     def handle_plan_submit(self):
@@ -119,6 +142,7 @@ class OnboardingState(rx.State):
             return
         self.is_loading = True
         yield
+        created_boteco_id = None
         try:
             boteco_data = {
                 "public_name": self.business_public_name,
@@ -141,11 +165,23 @@ class OnboardingState(rx.State):
                 "assigned_role": "owner",
                 "plan": self.selected_plan,
             }
-            await supabase_client.create_boteco_and_associate_user(
+            boteco_res, _ = await supabase_client.create_boteco_and_associate_user(
                 boteco_data, user_boteco_data
             )
-            await supabase_client.provision_schema(self.business_username)
-            logging.info(f"Schema provisioning triggered for: {self.business_username}")
+            if boteco_res.data and len(boteco_res.data) > 0:
+                created_boteco_id = boteco_res.data[0]["id"]
+            try:
+                await supabase_client.provision_schema(self.business_username)
+                logging.info(
+                    f"Schema provisioning triggered for: {self.business_username}"
+                )
+            except Exception as provision_error:
+                logging.exception(
+                    f"Provisioning failed, rolling back DB records: {provision_error}"
+                )
+                if created_boteco_id:
+                    await supabase_client.delete_boteco(created_boteco_id)
+                raise provision_error
             self.is_loading = False
             self.current_step = 1
             self.selected_plan = ""
@@ -154,7 +190,5 @@ class OnboardingState(rx.State):
         except Exception as e:
             logging.exception(f"Error during payment/provisioning: {e}")
             self.is_loading = False
-            yield rx.toast.error(
-                "Erro na finalização: Verifique os dados e tente novamente."
-            )
+            yield rx.toast.error(f"Erro na finalização: {str(e)}. Tente novamente.")
             return

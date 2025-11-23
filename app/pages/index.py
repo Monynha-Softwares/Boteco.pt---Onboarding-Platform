@@ -52,14 +52,8 @@ def solution_card(title: str, description: str, items: list[str]) -> rx.Componen
 
 def faq_item(question: str, answer: str) -> rx.Component:
     return rx.el.div(
-        rx.el.h3(
-            question,
-            class_name="text-lg font-semibold text-[#4F3222]",
-        ),
-        rx.el.p(
-            answer,
-            class_name="mt-2 text-sm text-[#4F3222] opacity-80",
-        ),
+        rx.el.h3(question, class_name="text-lg font-semibold text-[#4F3222]"),
+        rx.el.p(answer, class_name="mt-2 text-sm text-[#4F3222] opacity-80"),
         class_name="p-6 rounded-xl border border-gray-200/80 bg-white shadow-sm",
     )
 
@@ -232,8 +226,7 @@ def index() -> rx.Component:
             rx.el.div(
                 rx.el.div(
                     rx.el.h2(
-                        "Nossa missão",
-                        class_name="text-3xl font-bold text-[#4F3222]",
+                        "Nossa missão", class_name="text-3xl font-bold text-[#4F3222]"
                     ),
                     rx.el.p(
                         "A Boteco.pt nasceu dentro de cozinhas apertadas e balcões cheios. Criamos tecnologia que conversa com a rotina real dos bares brasileiros, com foco em simplicidade, segurança e resultado.",
@@ -274,7 +267,7 @@ def index() -> rx.Component:
                             href="/contact",
                             class_name="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-lg text-[#8B1E3F] bg-white hover:bg-gray-100",
                         ),
-                    class_name="mt-8 flex justify-center",
+                        class_name="mt-8 flex justify-center",
                     ),
                 ),
                 class_name="max-w-4xl mx-auto text-center",

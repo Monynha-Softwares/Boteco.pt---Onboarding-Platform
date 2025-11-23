@@ -51,9 +51,7 @@ def footer() -> rx.Component:
                     ),
                     rx.el.div(
                         rx.el.h4("Contato", class_name="font-semibold text-[#4F3222]"),
-                        rx.el.p(
-                            "contato@boteco.pt", class_name="mt-4 text-[#4F3222]"
-                        ),
+                        rx.el.p("contato@boteco.pt", class_name="mt-4 text-[#4F3222]"),
                         rx.el.div(
                             rx.el.a(
                                 rx.icon(

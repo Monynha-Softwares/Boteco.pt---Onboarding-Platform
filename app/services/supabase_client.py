@@ -37,10 +37,16 @@ class SupabaseClient:
             .execute()
         )
 
+    async def delete_boteco(self, boteco_id: str) -> APIResponse:
+        """Deletes a boteco record (for rollback purposes)."""
+        if not self.client:
+            raise ConnectionError("Supabase client not initialized.")
+        return await self.client.table("boteco").delete().eq("id", boteco_id).execute()
+
     async def create_boteco_and_associate_user(
         self, boteco_data: dict, user_boteco_data: dict
     ) -> tuple[APIResponse, APIResponse]:
-        """Creates a boteco and associates a user to it."""
+        """Creates a boteco and associates a user to it with transaction safety."""
         if not self.client:
             raise ConnectionError("Supabase client not initialized.")
         boteco_response = (
@@ -51,18 +57,22 @@ class SupabaseClient:
                 f"Failed to create boteco: {(boteco_response.error.message if boteco_response.error else 'Unknown error')}"
             )
         boteco_id = boteco_response.data[0]["id"]
-        user_boteco_data["boteco_id"] = boteco_id
-        user_boteco_response = (
-            await self.client.table("user_boteco").insert(user_boteco_data).execute()
-        )
-        if not user_boteco_response.data:
-            logging.error(
-                "Failed to associate user with boteco, boteco record remains."
+        try:
+            user_boteco_data["boteco_id"] = boteco_id
+            user_boteco_response = (
+                await self.client.table("user_boteco")
+                .insert(user_boteco_data)
+                .execute()
             )
-            raise Exception(
-                f"Failed to associate user to boteco: {(user_boteco_response.error.message if user_boteco_response.error else 'Unknown error')}"
-            )
-        return (boteco_response, user_boteco_response)
+            if not user_boteco_response.data:
+                raise Exception(
+                    f"Failed to associate user to boteco: {(user_boteco_response.error.message if user_boteco_response.error else 'Unknown error')}"
+                )
+            return (boteco_response, user_boteco_response)
+        except Exception as e:
+            logging.exception(f"Transaction failed, rolling back boteco creation: {e}")
+            await self.delete_boteco(boteco_id)
+            raise Exception(f"Transaction failed and rolled back: {e}")
 
     async def provision_schema(self, boteco_username: str) -> httpx.Response:
         """Calls the internal API to provision a new schema for the boteco."""

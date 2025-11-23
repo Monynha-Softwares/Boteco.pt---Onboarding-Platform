@@ -3,11 +3,14 @@ import reflex_clerk_api as clerk
 from app.states.base_state import BaseState
 
 
-def nav_link(text: str, href: str) -> rx.Component:
+def nav_link(
+    text: str, href: str, on_click: rx.event.EventHandler = None
+) -> rx.Component:
     """A navigation link component."""
     return rx.el.a(
         text,
         href=href,
+        on_click=on_click,
         class_name="text-base font-medium text-[#4F3222] hover:text-[#B3701A] transition-colors",
     )
 
@@ -75,11 +78,17 @@ def header() -> rx.Component:
             BaseState.show_mobile_menu,
             rx.el.div(
                 rx.el.div(
-                    nav_link("Início", "/"),
-                    nav_link("Planos", "/pricing"),
-                    nav_link("Sobre", "/about"),
-                    nav_link("Soluções", "/solutions"),
-                    nav_link("Contato", "/contact"),
+                    nav_link("Início", "/", on_click=BaseState.toggle_mobile_menu),
+                    nav_link(
+                        "Planos", "/pricing", on_click=BaseState.toggle_mobile_menu
+                    ),
+                    nav_link("Sobre", "/about", on_click=BaseState.toggle_mobile_menu),
+                    nav_link(
+                        "Soluções", "/solutions", on_click=BaseState.toggle_mobile_menu
+                    ),
+                    nav_link(
+                        "Contato", "/contact", on_click=BaseState.toggle_mobile_menu
+                    ),
                     class_name="px-2 pt-2 pb-3 space-y-1",
                 ),
                 rx.el.div(

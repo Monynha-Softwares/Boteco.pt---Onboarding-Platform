@@ -73,14 +73,20 @@ def contact() -> rx.Component:
                     ),
                     rx.el.form(
                         rx.el.div(
-                            rx.el.label("Nome completo", class_name="block text-sm font-medium text-[#4F3222]"),
+                            rx.el.label(
+                                "Nome completo",
+                                class_name="block text-sm font-medium text-[#4F3222]",
+                            ),
                             rx.el.input(
                                 placeholder="Seu nome",
                                 class_name="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm",
                             ),
                         ),
                         rx.el.div(
-                            rx.el.label("Email", class_name="block text-sm font-medium text-[#4F3222]"),
+                            rx.el.label(
+                                "Email",
+                                class_name="block text-sm font-medium text-[#4F3222]",
+                            ),
                             rx.el.input(
                                 type="email",
                                 placeholder="voce@boteco.com",
@@ -88,7 +94,10 @@ def contact() -> rx.Component:
                             ),
                         ),
                         rx.el.div(
-                            rx.el.label("Mensagem", class_name="block text-sm font-medium text-[#4F3222]"),
+                            rx.el.label(
+                                "Mensagem",
+                                class_name="block text-sm font-medium text-[#4F3222]",
+                            ),
                             rx.el.textarea(
                                 placeholder="Conte o que está buscando...",
                                 rows=4,

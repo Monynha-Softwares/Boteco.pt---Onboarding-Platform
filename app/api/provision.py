@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request, Response
 from supabase import create_client, Client
 import os
 import logging
+import re
 
 api_app = FastAPI()
 
@@ -12,15 +13,9 @@ async def provision_org_route(request: Request) -> Response:
     try:
         body = await request.json()
         boteco_username = body.get("boteco_username")
-        if not boteco_username or not boteco_username.strip():
+        if not boteco_username or not re.match("^[a-zA-Z0-9_]+$", boteco_username):
             return Response(
-                content='{"error": "boteco_username is required"}',
-                status_code=400,
-                media_type="application/json",
-            )
-        if not boteco_username.isalnum() and "_" not in boteco_username:
-            return Response(
-                content='{"error": "Invalid boteco_username format"}',
+                content='{"error": "Invalid boteco_username format. Use only alphanumeric characters and underscores."}',
                 status_code=400,
                 media_type="application/json",
             )
