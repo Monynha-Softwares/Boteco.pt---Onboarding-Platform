@@ -1,5 +1,5 @@
 import os
-from supabase import create_client, Client
+from supabase import create_client, Client, ClientOptions
 from postgrest import APIResponse
 import logging
 import httpx
@@ -18,7 +18,9 @@ class SupabaseClient:
     def _initialize_client(self) -> Client | None:
         if self.url and self.key:
             try:
-                return create_client(self.url, self.key)
+                return create_client(
+                    self.url, self.key, options=ClientOptions(schema="reflex")
+                )
             except Exception as e:
                 logging.exception(f"Error initializing Supabase client: {e}")
         return None

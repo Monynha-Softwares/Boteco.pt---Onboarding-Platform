@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Request, Response
-from supabase import create_client, Client
+from supabase import create_client, Client, ClientOptions
 import os
 import logging
 import re
@@ -30,7 +30,9 @@ async def provision_org_route(request: Request) -> Response:
             )
         schema_name = f"org_{boteco_username}"
         sql_command = f'CREATE SCHEMA IF NOT EXISTS "{schema_name}";'
-        supabase_admin: Client = create_client(supabase_url, supabase_key)
+        supabase_admin: Client = create_client(
+            supabase_url, supabase_key, options=ClientOptions(schema="reflex")
+        )
         response = await supabase_admin.rpc(
             "execute_sql", {"sql_command": sql_command}
         ).execute()
