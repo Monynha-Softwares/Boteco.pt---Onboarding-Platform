@@ -1,17 +1,16 @@
-import os
 import logging
-import psycopg
+import os
 from pathlib import Path
+
+import psycopg
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-def setup_schema():
-    """
-    Sets up the reflex schema using a direct database connection.
-    Requires DATABASE_URL environment variable.
-    """
+def setup_schema() -> None:
+    """Set up the reflex schema using a direct database connection."""
+
     db_url = os.getenv("DATABASE_URL") or os.getenv("REFLEX_DB_URL")
     if not db_url:
         logger.error("DATABASE_URL or REFLEX_DB_URL environment variable is not set.")
@@ -19,14 +18,17 @@ def setup_schema():
             "Please set it to your Supabase connection string (Transaction Pooler or Session Pooler)."
         )
         return
+
     if "+psycopg" in db_url:
         db_url = db_url.replace("postgresql+psycopg://", "postgresql://")
         logger.info("Adjusted connection string for psycopg3 compatibility.")
+
     current_dir = Path(__file__).resolve().parent
     sql_path = current_dir / "schema_setup.sql"
     if not sql_path.exists():
-        logger.error(f"SQL file not found at {sql_path}")
+        logger.error("SQL file not found at %s", sql_path)
         return
+
     try:
         sql_command = sql_path.read_text(encoding="utf-8")
         logger.info("Connecting to database...")
@@ -42,8 +44,8 @@ def setup_schema():
         logger.info("Add 'reflex' to the 'Exposed schemas' list")
         logger.info("Save the changes to allow API access to your new tables.")
         logger.info("=" * 60)
-    except Exception as e:
-        logger.exception(f"An error occurred during schema setup: {e}")
+    except Exception as exc:  # pragma: no cover - IO/DB heavy
+        logger.exception("An error occurred during schema setup: %s", exc)
 
 
 if __name__ == "__main__":

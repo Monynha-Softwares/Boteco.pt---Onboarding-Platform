@@ -1,10 +1,12 @@
-import reflex as rx
-from app.services.supabase_client import supabase_client
 import logging
+
+import reflex as rx
+
+from app.services.supabase_client import supabase_client
 from app.utils.validators import (
-    validate_username,
     validate_cpf_cnpj,
     validate_postal_code,
+    validate_username,
 )
 
 
@@ -38,9 +40,10 @@ class OnboardingState(rx.State):
         self.personal_email = form_data.get("personal_email", "")
         self.personal_tax_number = form_data.get("personal_tax_number", "")
         self.personal_birth_date = form_data.get("personal_birth_date", "")
-        self.personal_country = form_data.get("personal_country", "")
+        self.personal_country = form_data.get("personal_country", "Brasil")
         self.personal_postal_code = form_data.get("personal_postal_code", "")
         self.personal_house_number = form_data.get("personal_house_number", "")
+
         if not all(
             [
                 self.personal_first_name,
@@ -76,23 +79,16 @@ class OnboardingState(rx.State):
                 "house_number": self.personal_house_number,
                 "is_owner": True,
             }
-            response = await supabase_client.upsert_user(user_data)
-            if response.data:
-                self.user_id = response.data[0]["id"]
-                self.current_step = 2
-                self.is_loading = False
-                yield rx.redirect("/onboarding/step-2-business")
-                return
-            else:
-                raise Exception(
-                    response.error.message
-                    if response.error
-                    else "No data returned from upsert"
-                )
-        except Exception as e:
-            logging.exception(f"Error during personal data submission: {e}")
+            created_user = await supabase_client.upsert_user(user_data)
+            self.user_id = created_user.get("id")
+            self.current_step = 2
             self.is_loading = False
-            yield rx.toast.error(f"Erro ao salvar dados: {e}")
+            yield rx.redirect("/onboarding/step-2-business")
+            return
+        except Exception as exc:
+            logging.exception("Error during personal data submission: %s", exc)
+            self.is_loading = False
+            yield rx.toast.error("Erro ao salvar dados. Tente novamente.")
             return
 
     def _validate_business_data(self) -> bool:
@@ -109,6 +105,14 @@ class OnboardingState(rx.State):
 
     @rx.event
     async def handle_business_submit(self, form_data: dict):
+        self.business_public_name = form_data.get("business_public_name", self.business_public_name)
+        self.business_username = form_data.get("business_username", self.business_username)
+        self.business_tax_number = form_data.get("business_tax_number", self.business_tax_number)
+        self.business_service_category = form_data.get("business_service_category", self.business_service_category)
+        self.business_country = form_data.get("business_country", self.business_country)
+        self.business_postal_code = form_data.get("business_postal_code", self.business_postal_code)
+        self.business_vibe_tags = form_data.get("business_vibe_tags", self.business_vibe_tags)
+
         if not self._validate_business_data():
             yield rx.toast.error("Por favor, preencha todos os campos.")
             return
@@ -165,19 +169,18 @@ class OnboardingState(rx.State):
                 "assigned_role": "owner",
                 "plan": self.selected_plan,
             }
-            boteco_res, _ = await supabase_client.create_boteco_and_associate_user(
+            boteco, _ = await supabase_client.create_boteco_and_associate_user(
                 boteco_data, user_boteco_data
             )
-            if boteco_res.data and len(boteco_res.data) > 0:
-                created_boteco_id = boteco_res.data[0]["id"]
+            created_boteco_id = boteco.get("id")
             try:
                 await supabase_client.provision_schema(self.business_username)
                 logging.info(
-                    f"Schema provisioning triggered for: {self.business_username}"
+                    "Schema provisioning triggered for: %s", self.business_username
                 )
             except Exception as provision_error:
                 logging.exception(
-                    f"Provisioning failed, rolling back DB records: {provision_error}"
+                    "Provisioning failed, rolling back DB records: %s", provision_error
                 )
                 if created_boteco_id:
                     await supabase_client.delete_boteco(created_boteco_id)
@@ -187,8 +190,10 @@ class OnboardingState(rx.State):
             self.selected_plan = ""
             yield rx.redirect("/onboarding/success")
             return
-        except Exception as e:
-            logging.exception(f"Error during payment/provisioning: {e}")
+        except Exception as exc:
+            logging.exception("Error during payment/provisioning: %s", exc)
             self.is_loading = False
-            yield rx.toast.error(f"Erro na finalização: {str(e)}. Tente novamente.")
+            yield rx.toast.error(
+                f"Erro na finalização: {str(exc)}. Tente novamente."
+            )
             return

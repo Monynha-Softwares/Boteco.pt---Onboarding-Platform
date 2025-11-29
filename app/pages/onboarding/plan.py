@@ -1,6 +1,7 @@
 import reflex as rx
-from app.states.onboarding_state import OnboardingState
+
 from app.components.onboarding_stepper import onboarding_stepper
+from app.states.onboarding_state import OnboardingState
 
 
 def plan_onboarding_card(

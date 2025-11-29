@@ -1,6 +1,7 @@
 import reflex as rx
-from app.states.onboarding_state import OnboardingState
+
 from app.components.onboarding_stepper import onboarding_stepper
+from app.states.onboarding_state import OnboardingState
 
 
 def form_field(
@@ -8,6 +9,7 @@ def form_field(
     placeholder: str,
     value: rx.Var,
     on_change: rx.event.EventHandler,
+    name: str,
     field_type: str = "text",
 ) -> rx.Component:
     return rx.el.div(
@@ -15,6 +17,7 @@ def form_field(
         rx.el.input(
             placeholder=placeholder,
             on_change=on_change,
+            name=name,
             type=field_type,
             class_name="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#B3701A] focus:border-[#B3701A] sm:text-sm",
             default_value=value,
@@ -51,36 +54,42 @@ def business_step() -> rx.Component:
                             "Ex: Bar do Jonas",
                             OnboardingState.business_public_name,
                             OnboardingState.set_business_public_name,
+                            name="business_public_name",
                         ),
                         form_field(
                             "Username (@)",
                             "Ex: bardojonas",
                             OnboardingState.business_username,
                             OnboardingState.set_business_username,
+                            name="business_username",
                         ),
                         form_field(
                             "CNPJ do Estabelecimento",
                             "XX.XXX.XXX/XXXX-XX",
                             OnboardingState.business_tax_number,
                             OnboardingState.set_business_tax_number,
+                            name="business_tax_number",
                         ),
                         form_field(
                             "Categoria de Serviço",
                             "Ex: Bar, Restaurante",
                             OnboardingState.business_service_category,
                             OnboardingState.set_business_service_category,
+                            name="business_service_category",
                         ),
                         form_field(
                             "País",
                             "Brasil",
                             OnboardingState.business_country,
                             OnboardingState.set_business_country,
+                            name="business_country",
                         ),
                         form_field(
                             "CEP",
                             "XXXXX-XXX",
                             OnboardingState.business_postal_code,
                             OnboardingState.set_business_postal_code,
+                            name="business_postal_code",
                         ),
                         rx.el.div(
                             rx.el.label(
