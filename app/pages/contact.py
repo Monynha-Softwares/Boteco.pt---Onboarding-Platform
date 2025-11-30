@@ -42,8 +42,8 @@ def contact() -> rx.Component:
                         "Atendimento comercial",
                         "Horário: segunda a sexta, 9h às 19h (horário de Brasília).",
                         rx.el.a(
-                            "contato@botecopro.com",
-                            href="mailto:contato@botecopro.com",
+                            "contact@boteco.pt",
+                            href="mailto:contact@boteco.pt",
                             class_name="mt-4 inline-flex text-[#8C1D2C] font-semibold hover:text-[#AA3140]",
                         ),
                     ),
