@@ -4,9 +4,9 @@ import reflex_clerk_api as clerk
 from app.states.base_state import BaseState
 
 
-PRIMARY = "#8C1D2C"
-SECONDARY = "#AA3140"
-BACKGROUND = "#FFF7E8"
+PRIMARY = "#8B1E3F"
+SECONDARY = "#4F3222"
+BACKGROUND = "#B3701A"
 
 
 def nav_link(
