@@ -124,10 +124,6 @@ def footer() -> rx.Component:
                     "© 2025 BotecoPro — Desenvolvido e distribuído com tecnologia Monynha Softwares",
                     class_name="text-sm text-[#8C1D2C] opacity-80",
                 ),
-                rx.el.p(
-                    "Powered by Monynha Softwares — https://monynha.com",
-                    class_name="text-xs text-[#AA3140] mt-1",
-                ),
                 class_name="mt-12 pt-8 border-t border-[#8C1D2C]/10 text-center",
             ),
             class_name="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8",
