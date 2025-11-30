@@ -236,3 +236,4 @@ load_env.py
 alembic/*
 .github/copilot/*
 .codemachine/*
+.github/COPILOT_INSTRUCTIONS_UPDATED.md
