@@ -1,6 +1,8 @@
+import json
+import os
+
 import reflex as rx
 import reflex_clerk_api as clerk
-import os
 from app.pages.index import index
 from app.pages.pricing import pricing
 from app.pages.about import about
@@ -19,22 +21,51 @@ from app.pages.auth.signin import signin_page
 base_app = rx.App(
     theme=rx.theme(appearance="light"),
     head_components=[
-        rx.el.title("Boteco.pt | Plataforma completa para botecos modernos"),
+        rx.el.title(
+            "BotecoPro | Plataforma global de gestão para bares e restaurantes"
+        ),
         rx.el.meta(
             name="description",
-            content="Boteco.pt ajuda bares e botecos brasileiros a profissionalizarem operações com gestão integrada, marketing e insights financeiros.",
+            content="BotecoPro — plataforma de gestão para bares e restaurantes desenvolvida pela Monynha Softwares. Operações multi-tenant, multi-região e suporte inclusivo para equipes modernas.",
         ),
-        rx.el.meta(name="og:title", content="Boteco.pt"),
+        rx.el.meta(name="og:title", content="BotecoPro"),
         rx.el.meta(
             name="og:description",
-            content="Transforme o seu boteco com operações inteligentes, marketing integrado e suporte local.",
+            content="BotecoPro une tecnologia intuitiva, acessível e global da Monynha Softwares para impulsionar bares e restaurantes.",
         ),
         rx.el.meta(name="og:image", content="/placeholder.svg"),
+        rx.el.meta(name="og:url", content="https://monynha.com"),
+        rx.el.meta(name="og:site_name", content="BotecoPro"),
+        rx.el.meta(name="twitter:card", content="summary_large_image"),
+        rx.el.meta(name="twitter:title", content="BotecoPro by Monynha Softwares"),
+        rx.el.meta(
+            name="twitter:description",
+            content="Powered by Monynha Softwares — BotecoPro é a plataforma de gestão inclusiva para bares e restaurantes.",
+        ),
+        rx.el.meta(name="twitter:image", content="/placeholder.svg"),
+        rx.el.link(
+            rel="canonical",
+            href="https://monynha.com",
+        ),
         rx.el.link(rel="preconnect", href="https://fonts.googleapis.com"),
         rx.el.link(rel="preconnect", href="https://fonts.gstatic.com", cross_origin=""),
         rx.el.link(
             href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap",
             rel="stylesheet",
+        ),
+        rx.el.script(
+            type_="application/ld+json",
+            children=json.dumps(
+                {
+                    "@context": "https://schema.org",
+                    "@type": "Organization",
+                    "name": "BotecoPro",
+                    "url": "https://monynha.com",
+                    "brand": "Monynha Softwares",
+                    "sameAs": ["https://monynha.com"],
+                    "description": "BotecoPro — plataforma de gestão para bares e restaurantes desenvolvida pela Monynha Softwares.",
+                }
+            ),
         ),
         rx.script(
             """

@@ -1,4 +1,5 @@
 import reflex as rx
+import reflex as rx
 import reflex_clerk_api as clerk
 from app.states.onboarding_state import OnboardingState
 from app.components.onboarding_stepper import onboarding_stepper
@@ -14,14 +15,14 @@ def form_field(
     disabled: bool = False,
 ) -> rx.Component:
     return rx.el.div(
-        rx.el.label(label, class_name="block text-sm font-medium text-[#4F3222]"),
+        rx.el.label(label, class_name="block text-sm font-medium text-[#8C1D2C]"),
         rx.el.input(
             placeholder=placeholder,
             on_change=on_change,
             name=name,
             type=field_type,
             disabled=disabled,
-            class_name="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#B3701A] focus:border-[#B3701A] sm:text-sm disabled:bg-gray-100 disabled:text-gray-500",
+            class_name="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#AA3140] focus:border-[#AA3140] sm:text-sm disabled:bg-gray-100 disabled:text-gray-500",
             default_value=value,
         ),
         class_name="col-span-6 sm:col-span-3",
@@ -33,21 +34,21 @@ def personal_step() -> rx.Component:
         rx.el.div(
             rx.el.div(
                 rx.el.a(
-                    "Boteco.pt",
+                    "BotecoPro",
                     href="/",
-                    class_name="text-2xl font-bold text-[#8B1E3F] hover:opacity-90 transition-opacity",
+                    class_name="text-2xl font-bold text-[#8C1D2C] hover:text-[#AA3140] transition-colors",
                 ),
-                class_name="py-8 px-4 sm:px-6 lg:px-8 bg-[#F1DDAD]/50 border-b border-gray-200",
+                class_name="py-8 px-4 sm:px-6 lg:px-8 bg-[#FFF7E8] border-b border-gray-200",
             ),
             onboarding_stepper(OnboardingState.current_step),
             rx.el.div(
                 rx.el.h2(
                     "Passo 1: Seus Dados Pessoais",
-                    class_name="text-2xl font-bold text-[#4F3222]",
+                    class_name="text-2xl font-bold text-[#8C1D2C]",
                 ),
                 rx.el.p(
                     "Confirme seus dados e preencha o que falta. Alguns campos são preenchidos automaticamente pela sua conta.",
-                    class_name="mt-2 text-sm text-[#4F3222]/80",
+                    class_name="mt-2 text-sm text-[#8C1D2C]/80",
                 ),
                 rx.el.form(
                     rx.el.div(
@@ -157,7 +158,7 @@ def personal_step() -> rx.Component:
                               ),
                             type="submit",
                             is_disabled=OnboardingState.is_loading,
-                            class_name="inline-flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#8B1E3F] hover:bg-[#7a1a37] disabled:bg-gray-400",
+                            class_name="inline-flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#8C1D2C] hover:bg-[#AA3140] disabled:bg-gray-400",
                         ),
                         class_name="flex justify-end mt-8",
                     ),

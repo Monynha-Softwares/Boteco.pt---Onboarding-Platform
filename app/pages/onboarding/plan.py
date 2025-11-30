@@ -1,4 +1,6 @@
 import reflex as rx
+import reflex as rx
+
 from app.states.onboarding_state import OnboardingState
 from app.components.onboarding_stepper import onboarding_stepper
 
@@ -13,22 +15,22 @@ def plan_onboarding_card(
     is_selected = OnboardingState.selected_plan == plan_id
     return rx.el.div(
         rx.el.div(
-            rx.el.h3(plan_name, class_name="text-xl font-bold text-[#8B1E3F]"),
+            rx.el.h3(plan_name, class_name="text-xl font-bold text-[#8C1D2C]"),
             rx.cond(
                 recommended,
                 rx.el.span(
                     "Recomendado",
-                    class_name="ml-3 px-2 py-0.5 text-xs font-semibold tracking-wide text-white bg-[#B3701A] rounded-full",
+                    class_name="ml-3 px-2 py-0.5 text-xs font-semibold tracking-wide text-[#8C1D2C] bg-[#F2C94C] rounded-full",
                 ),
             ),
             class_name="flex items-center",
         ),
         rx.el.p(
             rx.el.span(
-                f"R$ {price}", class_name="text-3xl font-extrabold text-[#4F3222]"
+                f"R$ {price}", class_name="text-3xl font-extrabold text-[#8C1D2C]"
             ),
             rx.el.span(
-                "/mês", class_name="text-sm font-medium text-[#4F3222] opacity-70"
+                "/mês", class_name="text-sm font-medium text-[#8C1D2C] opacity-70"
             ),
             class_name="mt-2 flex items-baseline",
         ),
@@ -37,10 +39,10 @@ def plan_onboarding_card(
                 features,
                 lambda feature: rx.el.li(
                     rx.icon(
-                        tag="check", class_name="flex-shrink-0 h-5 w-5 text-green-500"
+                        tag="check", class_name="flex-shrink-0 h-5 w-5 text-[#4CAF50]"
                     ),
                     rx.el.span(
-                        feature, class_name="ml-2 text-sm text-[#4F3222] opacity-90"
+                        feature, class_name="ml-2 text-sm text-[#8C1D2C] opacity-90"
                     ),
                     class_name="flex items-center",
                 ),
@@ -52,12 +54,12 @@ def plan_onboarding_card(
             is_selected,
             rx.cond(
                 recommended,
-                "relative p-6 bg-yellow-50/50 rounded-xl shadow-2xl border-2 border-[#B3701A] transform scale-105 transition-all",
-                "relative p-6 bg-white rounded-xl shadow-lg border-2 border-[#8B1E3F] transition-all",
+                "relative p-6 bg-[#FFF7E8] rounded-xl shadow-2xl border-2 border-[#F2C94C] transform scale-105 transition-all",
+                "relative p-6 bg-white rounded-xl shadow-lg border-2 border-[#8C1D2C] transition-all",
             ),
             rx.cond(
                 recommended,
-                "relative p-6 bg-white rounded-xl shadow-lg border-2 border-[#B3701A] hover:shadow-xl hover:border-[#a66a18] transition-all cursor-pointer",
+                "relative p-6 bg-white rounded-xl shadow-lg border-2 border-[#F2C94C] hover:shadow-xl transition-all cursor-pointer",
                 "relative p-6 bg-white/70 rounded-xl shadow-md border border-gray-200/80 hover:shadow-lg hover:border-gray-300 transition-all cursor-pointer",
             ),
         ),
@@ -70,21 +72,21 @@ def plan_step() -> rx.Component:
         rx.el.div(
             rx.el.div(
                 rx.el.a(
-                    "Boteco.pt",
+                    "BotecoPro",
                     href="/",
-                    class_name="text-2xl font-bold text-[#8B1E3F] hover:opacity-90 transition-opacity",
+                    class_name="text-2xl font-bold text-[#8C1D2C] hover:text-[#AA3140] transition-colors",
                 ),
-                class_name="py-8 px-4 sm:px-6 lg:px-8 bg-[#F1DDAD]/50 border-b border-gray-200",
+                class_name="py-8 px-4 sm:px-6 lg:px-8 bg-[#FFF7E8] border-b border-gray-200",
             ),
             onboarding_stepper(OnboardingState.current_step),
             rx.el.div(
                 rx.el.h2(
                     "Passo 3: Escolha seu Plano",
-                    class_name="text-2xl font-bold text-center text-[#4F3222]",
+                    class_name="text-2xl font-bold text-center text-[#8C1D2C]",
                 ),
                 rx.el.p(
                     "Selecione o plano que melhor se encaixa no seu negócio.",
-                    class_name="mt-2 text-sm text-center text-[#4F3222]/80",
+                    class_name="mt-2 text-sm text-center text-[#8C1D2C]/80",
                 ),
                 rx.el.div(
                     plan_onboarding_card(
@@ -124,7 +126,7 @@ def plan_step() -> rx.Component:
                         "Continuar para Pagamento",
                         on_click=OnboardingState.handle_plan_submit,
                         is_disabled=OnboardingState.selected_plan == "",
-                        class_name="ml-4 inline-flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#8B1E3F] hover:bg-[#7a1a37] disabled:bg-gray-400 disabled:cursor-not-allowed",
+                        class_name="ml-4 inline-flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#8C1D2C] hover:bg-[#AA3140] disabled:bg-gray-400 disabled:cursor-not-allowed",
                     ),
                     class_name="flex justify-center mt-12",
                 ),
@@ -132,5 +134,5 @@ def plan_step() -> rx.Component:
             ),
             class_name="pb-16",
         ),
-        class_name="min-h-screen bg-[#F1DDAD]/30 font-['Inter']",
+        class_name="min-h-screen bg-[#FFF7E8]/30 font-['Inter']",
     )

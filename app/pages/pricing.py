@@ -9,22 +9,22 @@ def plan_card(
     """A card for displaying a pricing plan."""
     return rx.el.div(
         rx.el.div(
-            rx.el.h3(plan_name, class_name="text-2xl font-bold text-[#8B1E3F]"),
+            rx.el.h3(plan_name, class_name="text-2xl font-bold text-[#8C1D2C]"),
             rx.cond(
                 recommended,
                 rx.el.span(
                     "Recomendado",
-                    class_name="ml-3 px-3 py-1 text-xs font-semibold tracking-wide text-white bg-[#B3701A] rounded-full",
+                    class_name="ml-3 px-3 py-1 text-xs font-semibold tracking-wide text-[#8C1D2C] bg-[#F2C94C] rounded-full",
                 ),
             ),
             class_name="flex items-center",
         ),
         rx.el.p(
             rx.el.span(
-                f"R$ {price}", class_name="text-4xl font-extrabold text-[#4F3222]"
+                f"R$ {price}", class_name="text-4xl font-extrabold text-[#8C1D2C]"
             ),
             rx.el.span(
-                "/mês", class_name="text-base font-medium text-[#4F3222] opacity-70"
+                "/mês", class_name="text-base font-medium text-[#8C1D2C] opacity-70"
             ),
             class_name="mt-4 flex items-baseline",
         ),
@@ -33,8 +33,8 @@ def plan_card(
             href="/signup",
             class_name=rx.cond(
                 recommended,
-                "mt-8 block w-full bg-gradient-to-r from-[#8B1E3F] to-[#a13b5a] border border-transparent rounded-lg py-3 text-lg font-semibold text-white text-center hover:from-[#7a1a37] hover:to-[#8B1E3F] transition-all shadow-md hover:shadow-lg",
-                "mt-8 block w-full bg-white border border-[#8B1E3F] rounded-lg py-3 text-lg font-semibold text-[#8B1E3F] text-center hover:bg-[#8B1E3F]/10 transition-colors shadow-sm hover:shadow-md",
+                "mt-8 block w-full bg-gradient-to-r from-[#8C1D2C] to-[#AA3140] border border-transparent rounded-lg py-3 text-lg font-semibold text-white text-center hover:from-[#AA3140] hover:to-[#8C1D2C] transition-all shadow-md hover:shadow-lg",
+                "mt-8 block w-full bg-white border border-[#8C1D2C] rounded-lg py-3 text-lg font-semibold text-[#8C1D2C] text-center hover:bg-[#FFF7E8] transition-colors shadow-sm hover:shadow-md",
             ),
         ),
         rx.el.ul(
@@ -42,10 +42,10 @@ def plan_card(
                 features,
                 lambda feature: rx.el.li(
                     rx.icon(
-                        tag="check", class_name="flex-shrink-0 h-6 w-6 text-green-500"
+                        tag="check", class_name="flex-shrink-0 h-6 w-6 text-[#4CAF50]"
                     ),
                     rx.el.span(
-                        feature, class_name="ml-3 text-base text-[#4F3222] opacity-90"
+                        feature, class_name="ml-3 text-base text-[#8C1D2C] opacity-90"
                     ),
                     class_name="flex",
                 ),
@@ -55,8 +55,8 @@ def plan_card(
         ),
         class_name=rx.cond(
             recommended,
-            "relative p-8 bg-yellow-50/30 rounded-2xl shadow-2xl border-2 border-[#B3701A] transform hover:-translate-y-2 transition-transform duration-300",
-            "p-8 bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/80 hover:-translate-y-1 transition-transform duration-300",
+            "relative p-8 bg-[#FFF7E8] rounded-2xl shadow-2xl border-2 border-[#F2C94C] transform hover:-translate-y-2 transition-transform duration-300",
+            "p-8 bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-[#FFF7E8]/80 hover:-translate-y-1 transition-transform duration-300",
         ),
     )
 
@@ -67,7 +67,7 @@ def comparison_row(feature: str, plans: list[bool]) -> rx.Component:
         rx.el.th(
             feature,
             scope="row",
-            class_name="py-5 px-6 text-sm font-medium text-[#4F3222] text-left",
+            class_name="py-5 px-6 text-sm font-medium text-[#8C1D2C] text-left",
         ),
         rx.foreach(
             plans,
@@ -91,11 +91,11 @@ def pricing() -> rx.Component:
             rx.el.div(
                 rx.el.h1(
                     "Planos que cabem no seu balcão",
-                    class_name="text-4xl md:text-5xl font-extrabold text-center text-[#8B1E3F]",
+                    class_name="text-4xl md:text-5xl font-extrabold text-center text-[#8C1D2C]",
                 ),
                 rx.el.p(
                     "Escolha o plano ideal para o seu momento. Cancele quando quiser.",
-                    class_name="mt-4 max-w-2xl mx-auto text-center text-lg text-[#4F3222] opacity-90",
+                    class_name="mt-4 max-w-2xl mx-auto text-center text-lg text-[#8C1D2C] opacity-90",
                 ),
                 rx.el.div(
                     plan_card(
@@ -146,13 +146,13 @@ def pricing() -> rx.Component:
                 ),
                 class_name="py-16 sm:py-24 px-4 sm:px-6 lg:px-8",
             ),
-            class_name="bg-[#F1DDAD]/60",
+            class_name="bg-[#FFF7E8]",
         ),
         rx.el.section(
             rx.el.div(
                 rx.el.h2(
                     "Compare os Planos",
-                    class_name="text-3xl font-bold text-center text-[#4F3222]",
+                    class_name="text-3xl font-bold text-center text-[#8C1D2C]",
                 ),
                 rx.el.div(
                     rx.el.table(
@@ -182,7 +182,7 @@ def pricing() -> rx.Component:
                                     class_name="py-3 px-6 w-40",
                                 ),
                             ),
-                            class_name="text-sm font-semibold text-[#8B1E3F] bg-[#F1DDAD]/70",
+                            class_name="text-sm font-semibold text-[#8C1D2C] bg-[#FFF7E8]/80",
                         ),
                         rx.el.tbody(
                             comparison_row(
