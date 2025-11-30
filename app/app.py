@@ -36,6 +36,35 @@ base_app = rx.App(
             href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap",
             rel="stylesheet",
         ),
+        rx.script(
+            """
+            (() => {
+                const scrollToTop = () => {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                };
+
+                const dispatchScroll = () => window.dispatchEvent(new Event("locationchange"));
+
+                const patchHistoryMethod = (methodName) => {
+                    const original = history[methodName];
+                    history[methodName] = function (...args) {
+                        const result = original.apply(this, args);
+                        dispatchScroll();
+                        return result;
+                    };
+                };
+
+                patchHistoryMethod("pushState");
+                patchHistoryMethod("replaceState");
+
+                window.addEventListener("popstate", dispatchScroll);
+                window.addEventListener("locationchange", scrollToTop);
+
+                // Initial load
+                scrollToTop();
+            })();
+            """
+        ),
     ],
 )
 app = clerk.wrap_app(
