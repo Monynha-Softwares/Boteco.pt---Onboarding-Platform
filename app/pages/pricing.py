@@ -30,7 +30,7 @@ def plan_card(
         ),
         rx.el.a(
             "Escolher Plano",
-            href="/sign-up",
+            href="/signup",
             class_name=rx.cond(
                 recommended,
                 "mt-8 block w-full bg-gradient-to-r from-[#8B1E3F] to-[#a13b5a] border border-transparent rounded-lg py-3 text-lg font-semibold text-white text-center hover:from-[#7a1a37] hover:to-[#8B1E3F] transition-all shadow-md hover:shadow-lg",

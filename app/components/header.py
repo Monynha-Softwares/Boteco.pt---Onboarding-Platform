@@ -51,12 +51,12 @@ def header() -> rx.Component:
                     rx.el.div(
                         rx.el.a(
                             "Entrar",
-                            href="/sign-in",
+                            href="/signin",
                             class_name="text-base font-medium text-[#4F3222] hover:text-[#B3701A] transition-colors",
                         ),
                         rx.el.a(
                             "Criar Conta",
-                            href="/sign-up",
+                            href="/signup",
                             class_name="ml-4 inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-[#8B1E3F] hover:bg-[#7a1a37] transition-colors",
                         ),
                         class_name="items-center",
@@ -103,12 +103,12 @@ def header() -> rx.Component:
                         rx.el.div(
                             rx.el.a(
                                 "Entrar",
-                                href="/sign-in",
+                                href="/signin",
                                 class_name="block px-3 py-2 rounded-md text-base font-medium text-[#4F3222] hover:text-[#B3701A] hover:bg-gray-50",
                             ),
                             rx.el.a(
                                 "Criar Conta",
-                                href="/sign-up",
+                                href="/signup",
                                 class_name="mt-1 block w-full text-left px-3 py-2 rounded-md text-base font-medium text-white bg-[#8B1E3F] hover:bg-[#7a1a37]",
                             ),
                         )
