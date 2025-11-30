@@ -73,10 +73,6 @@ def index() -> rx.Component:
                         "Digitalize operações, reduza desperdícios e encante clientes com uma plataforma multi-tenant e multi-região desenvolvida pela Monynha Softwares.",
                         class_name="mt-4 max-w-2xl text-lg text-[#8C1D2C] opacity-90",
                     ),
-                    rx.el.p(
-                        "Powered by Monynha Softwares — https://monynha.com",
-                        class_name="mt-2 text-sm font-semibold text-[#AA3140]",
-                    ),
                     rx.el.div(
                         rx.el.a(
                             "Comece Agora",
@@ -310,7 +306,7 @@ def index() -> rx.Component:
                         class_name="text-3xl font-bold text-white text-center",
                     ),
                     rx.el.p(
-                        "Fale com especialistas BotecoPro e Monynha Softwares e receba um diagnóstico gratuito do seu fluxo atual.",
+                        "Fale com especialistas e receba um diagnóstico gratuito do seu fluxo atual.",
                         class_name="mt-4 text-base text-white/90 text-center",
                     ),
                     rx.el.div(
